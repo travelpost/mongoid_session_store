@@ -6,9 +6,9 @@ module ActionDispatch
         include Mongoid::Document
         include Mongoid::Timestamps
 
-        store_in :sessions
+        store_in collection: 'sessions'
 
-        identity :type => String
+        field :_id, :type => String
 
         field :data, :type => String, :default => [Marshal.dump({})].pack("m*")
       end

@@ -6,6 +6,8 @@ module ActionDispatch
         include Mongoid::Document
         include Mongoid::Timestamps
 
+        attr_accessible :_id
+        
         store_in collection: 'sessions'
 
         field :_id, :type => String
@@ -30,7 +32,7 @@ module ActionDispatch
             # We handle this by dropping sessions that can't be unpacked.  More elegant patches exist, and we may 
             # investigate those, but we need an immediate fix.
             sid = generate_sid
-            session = @@session_class.new(:id => sid)
+            session = @@session_class.new(:_id => sid)
           end
           env[SESSION_RECORD_KEY] = session
           [sid, unpack(session.data)]
@@ -47,7 +49,7 @@ module ActionDispatch
         end
 
         def find_session(id)
-          @@session_class.find_or_initialize_by(:id => id)
+          @@session_class.find_or_initialize_by(:_id => id)
         end
 
         # def destroy(env)
